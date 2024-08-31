@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function checkStrength(password) {
+            let strength = document.getElementById('strength');
+            if (password.length < 6) {
+                strength.textContent = 'Too short';
+                strength.style.color = 'red';
+            } else if (password.match(/[A-Za-z]/) && password.match(/[0-9]/) && password.match(/[^A-Za-z0-9]/)) {
+                strength.textContent = 'Strong';
+                strength.style.color = 'green';
+            } else if (password.match(/[A-Za-z]/) && password.match(/[0-9]/)) {
+                strength.textContent = 'Medium';
+                strength.style.color = 'orange';
+            } else {
+                strength.textContent = 'Weak';
+                strength.style.color = 'red';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Strength Checker</h1>
+        <form method="POST">
+            <input type="password" name="password" placeholder="Enter your password" onkeyup="checkStrength(this.value)" required>
+            <p id="strength"></p>
+            <button type="submit">Check Strength</button>
+        </form>
+        
+        {% if strength %}
+            <div class="result">
+                <p>Your password is: <strong>{{ strength }}</strong></p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
